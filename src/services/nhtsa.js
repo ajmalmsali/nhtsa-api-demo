@@ -1,71 +1,56 @@
 import request from 'requestretry';
-import { nhtsa as config } from '../config.json';
 import Promise from 'bluebird';
+import { nhtsa as config } from '../config.json';
 
 class NHTSAService {
   constructor(year, manufacture, model) {
-    this._year = year;
-    this._manufacture = manufacture;
-    this._model = model
+    this.year = year;
+    this.manufacture = manufacture;
+    this.model = model;
   }
 
-  find(){
-    let url = config.apiUrl +
-              '/modelyear/' + this._year +
-              '/make/' + this._manufacture +
-              '/model/' + this._model +
-              '?format=json';
+  static findRating(vehicle) {
+    const url = `${config.apiUrl}/VehicleId/${vehicle.VehicleId}?format=json`;
 
     return request({
-      url: url,
+      url,
       json: true,
-      fullResponse: false
+      fullResponse: false,
     }).then((response) => {
+      // attach crashrating to vehicle obj
+      const vehicleObj = vehicle;
+      vehicleObj.CrashRating = response.Results[0].OverallRating;
+      return vehicleObj;
+    });
+  }
 
-      if(response && response.Results) {
+  find() {
+    const url = `${config.apiUrl}/modelyear/${this.year}/make/${this.manufacture}/model/${this.model}?format=json`;
 
+    return request({
+      url,
+      json: true,
+      fullResponse: false,
+    }).then((response) => {
+      if (response && response.Results) {
         return Promise.map(response.Results, (vehicle) => {
-
-          //rename VehicleDescription to Description
-          vehicle.Description = vehicle.VehicleDescription;
-          delete vehicle.VehicleDescription
-
-          return vehicle;
-        }).then((processedVehicles) => {
-
-          delete response.Message;
-          return response; //we send the whole response back.
-
-        })
-      } else {
-        return Promise.resolve({
-          Count: 0,
-          Results: []
-        })
+          // rename VehicleDescription to Description
+          const vehicleObj = vehicle;
+          vehicleObj.Description = vehicle.VehicleDescription;
+          delete vehicleObj.VehicleDescription;
+          return vehicleObj;
+        }).then(() => {
+          const newResponse = response;
+          delete newResponse.Message;
+          return newResponse; // we send the whole response back.
+        });
       }
-    })
+      return Promise.resolve({
+        Count: 0,
+        Results: [],
+      });
+    });
   }
-
-  findRating(vehicle){
-
-    let url = config.apiUrl +
-              '/VehicleId/' + vehicle.VehicleId +
-              '?format=json';
-
-    return request({
-      url: url,
-      json: true,
-      fullResponse: false
-    }).then((response) => {
-
-      //attach crashrating to vehicle obj
-      vehicle.CrashRating = response.Results[0].OverallRating;
-
-      return vehicle;
-    })
-
-  }
-
 }
 
 export default NHTSAService;

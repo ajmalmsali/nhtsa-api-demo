@@ -1,22 +1,22 @@
-import NHTSAService from '../services/nhtsa'
-import Promise from 'bluebird'
+import Promise from 'bluebird';
+import { colorConsole } from 'tracer';
+import NHTSAService from '../services/nhtsa';
 
-export function vehicle (year, manufacture, model, rating){
+const logger = colorConsole();
 
-  let nhtsa = new NHTSAService(year, manufacture, model);
-  let vehicleResults = nhtsa.find();
+export default function vehicle(year, manufacture, model, withRating) {
+  const nhtsa = new NHTSAService(year, manufacture, model);
+  const vehicleResults = nhtsa.find();
 
-  if(rating){
-    return vehicleResults
-            .then((vehicles) => {
-              //for each vehicle found, findCrashRating
-              return Promise.map(vehicles.Results, nhtsa.findRating).then((mappedVehicles) => {
-                return vehicles; // we send the entire response instead of just mappedVehicles
-              });
-            })
+  if (withRating) {
+    return vehicleResults.then((vehicles) => {
+      logger.debug(vehicles);
+      // for each vehicle found, findCrashRating
+      return Promise.map(vehicles.Results, NHTSAService.findRating).then((mappedVehicles) => {
+        logger.debug(mappedVehicles);
+        return vehicles; // we send the entire response instead of just mappedVehicles
+      });
+    });
   }
-  else{
-    return vehicleResults;
-  }
-
-};
+  return vehicleResults;
+}
