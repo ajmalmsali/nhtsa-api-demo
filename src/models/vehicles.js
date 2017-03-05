@@ -9,15 +9,14 @@ export default function vehicle(year, manufacture, model, withRating) {
   const vehicleResults = nhtsa.find();
 
   if (withRating) {
-    const mapRating = (vehicles) => {
+    return vehicleResults.then((vehicles) => {
       logger.debug(vehicles);
       // for each vehicle found, findCrashRating
-      return Promise.map(vehicles.Results, nhtsa.findRating).then((mappedVehicles) => {
+      return Promise.map(vehicles.Results, NHTSAService.findRating).then((mappedVehicles) => {
         logger.debug(mappedVehicles);
         return vehicles; // we send the entire response instead of just mappedVehicles
       });
-    };
-    return vehicleResults.then(mapRating);
+    });
   }
   return vehicleResults;
 }
