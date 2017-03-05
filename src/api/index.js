@@ -1,7 +1,9 @@
 import { Router } from 'express';
-import { colorConsole as logger } from 'tracer';
+import { colorConsole } from 'tracer';
 import { version } from '../../package.json';
 import vehicles from './vehicles';
+
+const logger = colorConsole();
 
 export default ({ config }) => {
   const router = Router();

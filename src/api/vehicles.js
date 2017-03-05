@@ -1,6 +1,8 @@
 import { Router } from 'express';
-import { colorConsole as logger } from 'tracer';
-import { vehicle } from '../models/vehicles';
+import { colorConsole } from 'tracer';
+import vehicle from '../models/vehicles';
+
+const logger = colorConsole();
 
 export default () => {
   const router = Router();
