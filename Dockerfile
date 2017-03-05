@@ -1,26 +1,20 @@
-FROM alpine:3.4
+FROM node:7.2
 
-# File Author / Maintainer
-LABEL authors="Zouhir Chahoud <zouhir@zouhir.org>"
+# Install PM 2 & sequelize
+RUN npm install -g pm2 apidoc
 
-# Update & install required packages
-RUN apk add --update nodejs bash git
+# Create app directory
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-# Install app dependencies
-COPY package.json /www/package.json
-RUN cd /www; npm install
+ADD package.json /usr/src/app
+RUN npm install
 
-# Copy app source
-COPY . /www
-
-# Set work directory to /www
-WORKDIR /www
+# Bundle app source
+COPY . /usr/src/app/
 
 # set your port
-ENV PORT 8080
+ENV PORT 8888
 
-# expose the port to outside world
-EXPOSE  8080
-
-# start command as per package.json
+EXPOSE 8888
 CMD ["npm", "start"]
