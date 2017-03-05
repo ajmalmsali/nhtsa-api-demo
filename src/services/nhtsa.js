@@ -31,7 +31,7 @@ class NHTSAService {
           delete vehicle.VehicleDescription
 
           return vehicle;
-        }).then((processedVehicles) => {
+        }).then(() => {
 
           delete response.Message;
           return response; //we send the whole response back.
