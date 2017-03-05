@@ -1,7 +1,7 @@
 {
-  "name": "express-es6-rest-api",
-  "version": "0.3.0",
-  "description": "Starter project for an ES6 RESTful Express API",
+  "name": "nhtsa-api-demo",
+  "version": "0.0.1",
+  "description": "nhtsa api demo project  - based on es6 boilerplate at developit/express-es6-rest-api.git",
   "main": "dist",
   "scripts": {
     "dev": "nodemon -w src --exec \"babel-node src --presets es2015,stage-0\"",
@@ -24,16 +24,17 @@
       "no-unused-vars": 1
     }
   },
-  "repository": "developit/express-es6-rest-api",
-  "author": "Jason Miller <jason@developit.ca>",
-  "license": "MIT",
+  "author": "Ajmal Sali <mail@ajm.al>",
+  "contributors": [
+    "Jason Miller <jason@developit.ca>",
+    "Ajmal Sali <mail@ajm.al>"
+  ],
   "dependencies": {
     "body-parser": "^1.13.3",
     "compression": "^1.5.2",
     "cors": "^2.7.1",
     "express": "^4.13.3",
-    "morgan": "^1.8.0",
-    "resource-router-middleware": "^0.6.0"
+    "morgan": "^1.8.0"
   },
   "devDependencies": {
     "babel-cli": "^6.9.0",
@@ -41,6 +42,7 @@
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-stage-0": "^6.5.0",
     "eslint": "^3.1.1",
-    "nodemon": "^1.9.2"
+    "nodemon": "^1.9.2",
+    "yarn": "^0.21.3"
   }
 }
