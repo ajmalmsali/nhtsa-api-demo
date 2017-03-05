@@ -1,9 +1,8 @@
-import { version } from '../../package.json';
 import { Router } from 'express';
 import { vehicle } from '../models/vehicles';
 
-export default ({ config }) => {
-	let router = Router();
+export default () => {
+  const router = Router();
 
 	router.all('/:modelYear?/:manufacturer?/:model?', (req, res) => {
 
@@ -14,10 +13,10 @@ export default ({ config }) => {
 		let withRating = (req.query.withRating === 'true');
 
 		vehicle(modelYear, manufacturer, model, withRating).then((response) => {
-			res.send(response);
+			res.json(response);
 		})
 		.catch((e) => {
-			console.log(e)
+			console.error(e)
 			res.status(500).send(e.error)
 		});
 

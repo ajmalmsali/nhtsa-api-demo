@@ -10,8 +10,10 @@ export function vehicle (year, manufacture, model, rating){
     return vehicleResults
             .then((vehicles) => {
               //for each vehicle found, findCrashRating
-              return Promise.map(vehicles.Results, nhtsa.findRating)
-            });
+              return Promise.map(vehicles.Results, nhtsa.findRating).then((mappedVehicles) => {
+                return vehicles; // we send the entire response instead of just mappedVehicles
+              });
+            })
   }
   else{
     return vehicleResults;
