@@ -5,7 +5,6 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import api from './api';
 import config from './config.json';
-import normalized from 'express-normalized';
 
 let app = express();
 app.server = http.createServer(app);
@@ -16,7 +15,6 @@ app.use(morgan('dev'));
 // 3rd party middleware
 app.use(cors());
 app.use(bodyParser.json());
-app.use(normalized());
 
 // api router
 app.use('/', api({ config })); //mount on root instead of api/version/
