@@ -1,7 +1,7 @@
 FROM node:7.2
 
-# Install PM 2 & sequelize
-RUN npm install -g pm2 apidoc
+# Install PM 2 apidoc yarn
+RUN npm install -g pm2 apidoc yarn
 
 # Create app directory
 RUN mkdir -p /usr/src/app
