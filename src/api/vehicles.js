@@ -13,15 +13,13 @@ export default ({ config }) => {
 
 		let withRating = (req.query.withRating === 'true');
 
-		console.log(req.params)
-
 		vehicle(modelYear, manufacturer, model, withRating).then((response) => {
 			res.send(response);
 		})
 		.catch((e) => {
 			console.log(e)
 			res.status(500).send(e.error)
-		})
+		});
 
 	});
 

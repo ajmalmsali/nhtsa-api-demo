@@ -7,7 +7,6 @@ export function vehicle (year, manufacture, model, rating){
   let vehicleResults = nhtsa.find();
 
   if(rating){
-
     return vehicleResults
             .then((vehicles) => {
               //for each vehicle found, findCrashRating
